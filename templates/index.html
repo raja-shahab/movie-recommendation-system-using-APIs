@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Recommendation System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #141414;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            background-color: #222;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #E50914;
+            border: none;
+        }
+        .card-title, .card-text, .text-muted {
+            color: white;
+        }
+        .card-img-top {
+            max-height: 300px;
+            object-fit: cover;
+        }
+        .navbar {
+            background-color: #E50914;
+        }
+        .navbar-brand {
+            color: white !important;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Movies Recommendation System</a>
+    </nav>
+    <div class="container">
+        <h2 class="my-4">Discover Your Perfect Movie Match</h2>
+        <form id="movieForm" method="post">
+            <div class="form-group">
+                <input type="text" id="movie_name" name="movie_name" class="form-control" placeholder="Type a Movie, Get Your Matches!">
+            </div>
+            <button type="submit" class="btn btn-primary">Get Recommendations</button>
+        </form>
+        <div id="recommendations" class="row mt-4"></div>
+    </div>
+
+    <script>
+        document.getElementById('movieForm').onsubmit = function(event) {
+            event.preventDefault();
+            var movieName = document.getElementById('movie_name').value;
+            fetch('/recommend/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({'movie_name': movieName})
+            })
+            .then(response => response.json())
+            .then(data => {
+                var recommendationsDiv = document.getElementById('recommendations');
+                recommendationsDiv.innerHTML = '';
+                if (data.recommendations) {
+                    data.recommendations.forEach(function(movie) {
+                        var movieCard = `
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <img class="card-img-top" src="${movie.image_url}" alt="${movie.title}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${movie.title}</h5>
+                                        <p class="card-text">${movie.description}</p>
+                                        <p class="card-text"><small class="text-muted">Rating: ${movie.rating}</small></p>
+                                        <p class="card-text"><small class="text-muted">Genres: ${movie.genres}</small></p>
+                                        <p class="card-text"><small class="text-muted">Director: ${movie.director}</small></p>
+                                        <p class="card-text"><small class="text-muted">Writers: ${movie.writers}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        recommendationsDiv.innerHTML += movieCard;
+                    });
+                } else if (data.error) {
+                    recommendationsDiv.innerHTML = '<p>' + data.error + '</p>';
+                } else {
+                    recommendationsDiv.innerHTML = '<p>No recommendations found.</p>';
+                }
+            });
+        };
+    </script>
+</body>
+</html>

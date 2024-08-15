@@ -1,0 +1,69 @@
+body {
+    background-color: #141414; /* Dark background for a modern look */
+    color: #ffffff; /* White text for contrast */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+header {
+    background-color: #000000; /* Black background for the header */
+    color: #ffffff;
+    padding: 20px;
+    border-bottom: 2px solid #333333; /* Darker border for separation */
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+#recommendation-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    background-color: #333333; /* Dark background for input */
+    border: 1px solid #444444; /* Darker border for input */
+    color: #ffffff;
+}
+
+.form-control::placeholder {
+    color: #aaaaaa; /* Light gray placeholder text */
+}
+
+.btn-primary {
+    background-color: #e50914; /* Netflix red for button */
+    border-color: #e50914;
+}
+
+.btn-primary:hover {
+    background-color: #f40612; /* Slightly darker red on hover */
+    border-color: #f40612;
+}
+
+.card {
+    background-color: #222222; /* Dark background for cards */
+    border: none; /* Remove default card border */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    overflow: hidden; /* Ensure rounded corners work with the image */
+}
+
+.card-img-top {
+    border-bottom: 1px solid #333333; /* Separator line under image */
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensure image covers the area without distortion */
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #b3b3b3; /* Light gray text for description */
+}
